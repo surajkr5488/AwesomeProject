@@ -4,8 +4,8 @@ import { loadTimers, saveTimers, loadLogs, saveLogs } from '../persistence/stora
 const TimerContext = createContext();
 
 const initialState = {
-  timers: [], // Active timers
-  logs: [],   // Completed timers
+  timers: [],  
+  logs: [],    
 };
 
 const timerReducer = (state, action) => {
