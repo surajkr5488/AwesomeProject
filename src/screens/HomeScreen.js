@@ -1,10 +1,19 @@
-import React, { useContext, useState } from 'react';
-import { View, TextInput, Button, FlatList, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-native';
+import React, {useContext, useState} from 'react';
+import {
+  View,
+  TextInput,
+  Button,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  Dimensions,
+} from 'react-native';
 import TimerContext from '../context/TimerContext';
 import TimerCard from '../components/TimerCard';
 
-const HomeScreen = ({ navigation }) => {
-  const { state, dispatch } = useContext(TimerContext);
+const HomeScreen = ({navigation}) => {
+  const {state, dispatch} = useContext(TimerContext);
   const [name, setName] = useState('');
   const [duration, setDuration] = useState('');
   const [category, setCategory] = useState('');
@@ -19,48 +28,56 @@ const HomeScreen = ({ navigation }) => {
         remainingTime: parseInt(duration, 10),
         status: 'Paused',
       };
-      dispatch({ type: 'ADD_TIMER', payload: newTimer });
+      dispatch({type: 'ADD_TIMER', payload: newTimer});
       setName('');
       setDuration('');
       setCategory('');
     }
   };
 
-  const handleStart = (id) => {
-    dispatch({ type: 'UPDATE_TIMER', payload: { id, status: 'Running' } });
+  const handleStart = id => {
+    dispatch({type: 'UPDATE_TIMER', payload: {id, status: 'Running'}});
   };
 
   const handlePause = (id, remainingTime) => {
-    dispatch({ type: 'UPDATE_TIMER', payload: { id, remainingTime, status: 'Paused' } });
+    dispatch({
+      type: 'UPDATE_TIMER',
+      payload: {id, remainingTime, status: 'Paused'},
+    });
   };
 
-  const handleReset = (id) => {
-    const timer = state.timers.find((t) => t.id === id);
+  const handleReset = id => {
+    const timer = state.timers.find(t => t.id === id);
     if (timer) {
       dispatch({
         type: 'UPDATE_TIMER',
-        payload: { id, remainingTime: timer.duration, status: 'Paused' },
+        payload: {id, remainingTime: timer.duration, status: 'Paused'},
       });
     }
   };
 
-  const handleComplete = (id) => {
-    const timer = state.timers.find((t) => t.id === id);
+  const handleComplete = id => {
+    const timer = state.timers.find(t => t.id === id);
     if (timer) {
       dispatch({
         type: 'ADD_LOG',
-        payload: { name: timer.name, completedAt: new Date().toLocaleString() },
+        payload: {name: timer.name, completedAt: new Date().toLocaleString()},
       });
       dispatch({
         type: 'UPDATE_TIMER',
-        payload: { id, status: 'Completed' },
+        payload: {id, status: 'Completed'},
       });
     }
   };
 
   return (
     <View style={styles.container}>
-      <TextInput placeholder="Name" value={name} onChangeText={setName} style={styles.input} />
+      <TextInput
+        placeholder="Name"
+        value={name}
+        onChangeText={setName}
+        style={styles.input}
+      />
       <TextInput
         placeholder="Duration (seconds)"
         value={duration}
@@ -68,23 +85,27 @@ const HomeScreen = ({ navigation }) => {
         keyboardType="numeric"
         style={styles.input}
       />
-      <TextInput placeholder="Category" value={category} onChangeText={setCategory} style={styles.input} />
-      
+      <TextInput
+        placeholder="Category"
+        value={category}
+        onChangeText={setCategory}
+        style={styles.input}
+      />
+
       <TouchableOpacity style={styles.button} onPress={addTimer}>
         <Text style={styles.buttonText}>Add Timer</Text>
       </TouchableOpacity>
 
-   
       <TouchableOpacity
         style={[styles.button, styles.secondaryButton]}
-        onPress={() => navigation.navigate('History')}
-      >
+        onPress={() => navigation.navigate('History')}>
         <Text style={styles.buttonText}>View History</Text>
       </TouchableOpacity>
+
       <FlatList
         data={state.timers}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
+        keyExtractor={item => item.id.toString()}
+        renderItem={({item}) => (
           <TimerCard
             timer={item}
             onStart={handleStart}
@@ -97,9 +118,9 @@ const HomeScreen = ({ navigation }) => {
     </View>
   );
 };
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 const styles = StyleSheet.create({
-    container: {
+  container: {
     flex: 1,
     padding: 16,
     backgroundColor: '#f9f9f9',
@@ -121,7 +142,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 8,
-    width: width * 0.9,  
+    width: width * 0.9,
     alignSelf: 'center',
   },
   secondaryButton: {
@@ -135,7 +156,6 @@ const styles = StyleSheet.create({
   listContainer: {
     marginTop: 16,
   },
- 
 });
 
 export default HomeScreen;

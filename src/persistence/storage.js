@@ -3,12 +3,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const TIMER_STORAGE_KEY = '@timers';
 const LOG_STORAGE_KEY = '@logs';
 
-export const saveTimers = async (timers) => {
+export const saveTimers = async timers => {
   try {
     await AsyncStorage.setItem(TIMER_STORAGE_KEY, JSON.stringify(timers));
+    console.log('Saved timers');
   } catch (error) {
     console.error('Error saving timers:', error);
   }
+  console.log('first', JSON.stringify(first, null, 2));
 };
 
 export const loadTimers = async () => {
@@ -21,7 +23,7 @@ export const loadTimers = async () => {
   }
 };
 
-export const saveLogs = async (logs) => {
+export const saveLogs = async logs => {
   try {
     await AsyncStorage.setItem(LOG_STORAGE_KEY, JSON.stringify(logs));
   } catch (error) {
