@@ -11,6 +11,7 @@ const HistoryScreen = () => {
       <FlatList
         data={state.timers}
         keyExtractor={(item, index) => index.toString()}
+        showsVerticalScrollIndicator={false}
         renderItem={({item}) => (
           <>
             {console.log(item, 'item')}
